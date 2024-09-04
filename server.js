@@ -20,13 +20,25 @@ async function runMongoDB() {
     });
     console.log("User created", newUser);
 
+    // update user
+    let findUser = await User.findById("66d7fc95b441f14144184c54");
+    findUser.email = "piastri@f1.com";
+    findUser.save();
+
     // query db
     console.log(await User.find()); // to find all users
 
-    const user = await User.findById("66d7fc95b441f14144184c54"); // findById pass user.id
+    let user = await User.findById("66d7fc95b441f14144184c54"); // findById pass user.id
 
-    user.email = "piastri@f1.com";
-    await user.save();
+    user = await User.find({ name: "Piastri" }); // gives all user with this name
+
+    user = await User.findOne({ name: "Piastri" }); // gives 1st user with this name
+
+    user = await User.exists({ name: "Piastri" }); // boolean output to see if users exists
+
+    user = await User.deleteOne({ name: "Piastri" }); // Deletes 1st user with this name
+
+    user = await User.deleteMany({ name: "Piastri" }); // Deletes all user with this name
 
     console.log(user);
   } catch (error) {
